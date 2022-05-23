@@ -1,0 +1,506 @@
+{% include 'header3.html.twig' %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="{{ asset('js/custom/components/util.js') }}"></script>
+
+
+<!--begin::Content-->
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+    <!--begin::Post-->
+    <div class="post d-flex flex-column-fluid" id="kt_post">
+        <!--begin::Container-->
+        <div class="toolbar" id="kt_toolbar">
+            <!--begin::Container-->
+            <div id="kt_toolbar_container" class="container-fluid d-flex  ">
+                <!--begin::Page title-->
+                <!--begin::Actions-->
+                <div class="d-flex align-items-center gap-2 gap-lg-3">
+                    <a  class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_new_card">Kredi Ekle</a>
+                    <!--end::Primary button-->
+                </div>
+                <!--end::Actions-->
+            </div>
+            <!--end::Container-->
+        </div>
+        <div id="kt_content_container" class="container-xxl">
+
+            <div class="row g-5 g-xl-8">
+                {% for credit in credits %}
+                    <!--begin::Col-->
+                    <div class="col-xl-4">
+                        <!--begin::Mixed Widget 4-->
+
+                        <div class="card card-xl-stretch mb-xl-8">
+                            <!--begin::Beader-->
+                            <div class="card-header">
+                                <h3 class="card-title align-items-start flex-column">
+                                    <span class="card-label ">{{ credit.bank_info }}</span>
+                                </h3>
+                                <h3 class="card-title align-items-start flex-column">
+                                    <span class="card-label ">{{ credit.installement.debtType }}</span>
+                                </h3>
+                            </div>
+                            <!--end::Header-->
+                            <!--begin::Body-->
+                            <div class="card-body d-flex flex-column">
+                                <div>
+                                    <div class="col-md-12" style="display: flex">
+                                        <label class="col-md-6">Kalan Taksit</label>
+                                        <label class="col-md-6">{{ credit.installement.kalan_taksit_sayisi }}</label>
+                                    </div>
+                                    <div class="col-md-12" style="display: flex; margin-top: 3px">
+                                        <label class="col-md-6">Ödenen Taksit</label>
+                                        <label class="col-md-6">{{ credit.installement.odenen_taksit_sayisi }}</label>
+                                    </div>
+                                    <div class="col-md-12" style="display: flex; margin-top: 3px">
+                                        <label class="col-md-6">Ödenen Tutar</label>
+                                        <label class="col-md-6">{{ credit.installement.odenen_tutar }} ₺</label>
+                                    </div>
+                                    <div class="col-md-12" style="display: flex; margin-top: 3px">
+                                        <label class="col-md-6">Kalan Tutar</label>
+                                        <label class="col-md-6">{{ credit.installement.kalan_tutar }} ₺</label>
+                                    </div>
+                                </div>
+                                <div style="margin-bottom: 20px; margin-top: 3px" class="progress">
+                                    <div class="progress-bar" role="progressbar" style="width: {{ credit.installement.progress }}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{ credit.installement.progress }}%</div>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <img src="{{ credit.image_url }}" height="230" width="350">
+                                </div>
+                                <div ><strong>{{ credit.name_surnama }}</strong></div>
+                                <div class="pt-5">
+                                    <table class="table table-sm">
+                                        <thead>
+                                        <tr>
+
+                                            <th scope="col">Toplam Tutar</th>
+                                            <th scope="col">Ana Para</th>
+                                            <th scope="col">Taksit</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+
+                                            <td>{{ credit.total_amount }} ₺ </td>
+                                            <td>{{ credit.principal }} ₺</td>
+                                            <td>{{ credit.installement_count }} </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <a href="#"  data-bs-toggle="modal" data-bs-target="#kt_modal_detail" onclick="krediDetailed({{ credit.id }})" class="btn btn-primary w-100 py-3">Detay</a>
+                                </div>
+                            </div>
+                            <!--end::Body-->
+                        </div>
+                        <!--end::Mixed Widget 4-->
+                    </div>
+                    <!--end::Col-->
+                {% endfor %}
+            </div>
+
+        </div>
+        <!--begin::Modal - New Card-->
+        <div class="modal fade" id="kt_modal_new_card" tabindex="-1" aria-hidden="true">
+            <!--begin::Modal dialog-->
+            <div class="modal-dialog modal-dialog-centered mw-650px">
+                <!--begin::Modal content-->
+                <div class="modal-content">
+                    <!--begin::Modal header-->
+                    <div class="modal-header">
+                        <!--begin::Modal title-->
+                        <h2>Kredi Ekle</h2>
+                        <!--end::Modal title-->
+                        <!--begin::Close-->
+                        <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                            <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                            <span class="svg-icon svg-icon-1">
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1" transform="rotate(-45 6 17.3137)" fill="black" />
+									<rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)" fill="black" />
+								</svg>
+							</span>
+                            <!--end::Svg Icon-->
+                        </div>
+                        <!--end::Close-->
+                    </div>
+                    <!--end::Modal header-->
+                    <!--begin::Modal body-->
+                    <div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
+                        <!--begin::Form-->
+                        <form id="kt_modal_new_card_form" class="form" action="{{ path('save_credit')}}" method="post">
+                            <div class="d-flex flex-column mb-7 fv-row">
+                                <!--begin::Label-->
+                                <label class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                                    <span class="required">Banka Bilgisi</span>
+                                    <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Specify a card holder's name"></i>
+                                </label>
+                                <!--end::Label-->
+                                <input type="text" class="form-control form-control-solid" placeholder="" name="bank_info"/>
+                            </div>
+
+                            <!--begin::Input group-->
+                            <div class="d-flex flex-column mb-7 fv-row">
+                                <!--begin::Label-->
+                                <label class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                                    <span class="required">Kredi Sahibi</span>
+                                    <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Specify a card holder's name"></i>
+                                </label>
+                                <!--end::Label-->
+                                <div class="row fv-row">
+                                    <!--begin::Col-->
+                                    <div class="">
+                                        <select name="cerdit_name" class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="isim soyisim">
+                                            <option></option>
+                                            {% for key,val in users %}
+                                                <option value="{{ val.id }}">{{ val.name | trans }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <!--end::Col-->
+                                </div>
+                            </div>
+                            <!--end::Input group-->
+                            <!--begin::Input group-->
+                            <div class="d-flex flex-column mb-7 fv-row">
+                                <!--begin::Label-->
+                                <label class="required fs-6 fw-bold form-label mb-2">Taksit sayisi</label>
+                                <!--end::Label-->
+                                <div class="row fv-row">
+                                    <!--begin::Col-->
+                                    <div class="">
+                                        <select  name="credit_installement"  id="credit_installement" class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="Taksit Sayisi">
+                                            <option></option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                            <option value="11">11</option>
+                                            <option value="12">12</option>
+                                            <option value="13">13</option>
+                                            <option value="14">14</option>
+                                            <option value="15">15</option>
+                                            <option value="16">16</option>
+                                            <option value="17">17</option>
+                                            <option value="18">18</option>
+                                            <option value="19">19</option>
+                                            <option value="20">20</option>
+                                            <option value="21">21</option>
+                                            <option value="22">22</option>
+                                            <option value="23">23</option>
+                                            <option value="24">24</option>
+                                            <option value="25">25</option>
+                                            <option value="26">26</option>
+                                            <option value="27">27</option>
+                                            <option value="28">28</option>
+                                            <option value="29">29</option>
+                                            <option value="30">30</option>
+                                            <option value="31">31</option>
+                                            <option value="32">32</option>
+                                            <option value="33">33</option>
+                                            <option value="34">34</option>
+                                            <option value="35">35</option>
+                                            <option value="36">36</option>
+                                            <option value="37">37</option>
+                                            <option value="38">38</option>
+                                            <option value="39">39</option>
+                                            <option value="40">40</option>
+                                            <option value="41">41</option>
+                                            <option value="42">42</option>
+                                            <option value="43">43</option>
+                                            <option value="44">44</option>
+                                            <option value="45">45</option>
+                                            <option value="46">46</option>
+                                            <option value="47">47</option>
+                                            <option value="48">48</option>
+                                        </select>
+                                    </div>
+                                    <!--end::Col-->
+                                </div>
+                                <!--end::Input wrapper-->
+                            </div>
+                            <!--begin::Input group-->
+                            <div class="d-flex flex-column mb-7 fv-row">
+                                <!--begin::Label-->
+                                <label class="required fs-6 fw-bold form-label mb-2">Cekilen Faizli Miktar</label>
+                                <!--end::Label-->
+                                <!--begin::Input wrapper-->
+                                <div class="position-relative">
+                                    <!--begin::Input-->
+                                    <input type="number" class="form-control form-control-solid"  id="cekilen_tutar" name="cekilen_tutar" />
+                                    <!--end::Input-->
+                                </div>
+                                <!--end::Input wrapper-->
+                            </div>
+                            <div class="d-flex flex-column mb-7 fv-row">
+                                <!--begin::Label-->
+                                <label class="required fs-6 fw-bold form-label mb-2">Ana Para</label>
+                                <!--end::Label-->
+                                <!--begin::Input wrapper-->
+                                <div class="position-relative">
+                                    <!--begin::Input-->
+                                    <input type="number" class="form-control form-control-solid"  id="ana_para" name="ana_para" />
+                                    <!--end::Input-->
+                                </div>
+                                <!--end::Input wrapper-->
+                            </div>
+                            <!--end::Input group-->
+                            <div class="d-flex flex-column mb-7 fv-row">
+                                <!--begin::Label-->
+                                <label class="required fs-6 fw-bold form-label mb-2">İlk Çekildiği Tarih</label>
+                                <!--end::Label-->
+                                <!--begin::Input wrapper-->
+                                <div class="position-relative">
+                                    <!--begin::Input-->
+                                    <input id="ilk_cekildigi_tarih" class="form-control form-control-solid" type="date"   name="ilk_cekildigi_tarih" />
+                                    <!--end::Input-->
+                                </div>
+                                <!--end::Input wrapper-->
+                            </div>
+                            <!--begin::Input group-->
+                            <div id = "kredi_gorsel" class="d-flex flex-column mb-7 fv-row">
+                                <!--begin::Label-->
+                                <label class="required fs-6 fw-bold form-label mb-2">Kredi Görsel</label>
+                                <!--end::Label-->
+                                <!--begin::Input wrapper-->
+                                <div class="position-relative">
+                                    <!--begin::Input-->
+                                    <input type="text" class="form-control form-control-solid"  name="kurl" />
+                                    <!--end::Input-->
+                                </div>
+                                <!--end::Input wrapper-->
+                            </div>
+                            <!--end::Input group-->
+                            <!--begin::Actions-->
+                            <div class="text-center pt-15">
+                                <button type="reset" id="kt_modal_new_card_cancel"
+                                        class="btn btn-light me-3">Discard
+                                </button>
+                                <button type="submit" id="kt_modal_new_card_submit" class="btn btn-primary" disabled>
+                                    <span class="indicator-label">Submit</span>
+                                    <span class="indicator-progress">Please wait...
+									            <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+                                </button>
+                            </div>
+                            <!--end::Actions-->
+                        </form>
+                        <!--end::Form-->
+                    </div>
+
+                    <!--end::Modal body-->
+                </div>
+                <!--end::Modal content-->
+            </div>
+            <!--end::Modal dialog-->
+        </div>
+        <!--end::Modal - New Card-->
+        <div class="modal fade" id="kt_modal_detail" tabindex="-1" aria-hidden="true">
+            <!--begin::Modal dialog-->
+            <div class="modal-dialog modal-dialog-centered mw-650px">
+                <!--begin::Modal content-->
+                <div class="modal-content">
+                    <!--begin::Modal header-->
+                    <div class="modal-header">
+                        <!--begin::Modal title-->
+                        <h2>Kredi Detay</h2>
+                        <!--end::Modal title-->
+                        <!--begin::Close-->
+                        <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                            <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                            <span class="svg-icon svg-icon-1">
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1" transform="rotate(-45 6 17.3137)" fill="black" />
+									<rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)" fill="black" />
+								</svg>
+							</span>
+                            <!--end::Svg Icon-->
+                        </div>
+                        <!--end::Close-->
+                    </div>
+                    <!--end::Modal header-->
+                    <!--begin::Modal body-->
+                    <div id = "kredi-detay"  class="modal-body scroll-y mx-5 mx-xl-15 my-7">
+
+
+                    </div>
+
+
+                    <!--end::Modal body-->
+                </div>
+
+                <!--end::Modal content-->
+            </div>
+            <!--end::Modal dialog-->
+        </div>
+
+
+        <!--end::Container-->
+    </div>
+    <!--end::Post-->
+</div>
+
+<script>
+
+    function updateStatus(id) {
+        $.ajax({
+            url: "/credit/update_status/",
+            type: "post",
+            data: {id:id} ,
+            success: function (response) {
+             debugger
+
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+
+            }
+        });
+    }
+
+    function krediDetailed(id) {
+
+
+        $.ajax({
+            url: "/credit/get_installement_detail/",
+            type: "post",
+            data: {id:id} ,
+            success: function (response) {
+                debugger
+                var htmlTable = '';
+                for (var i = 0; i<response.data.length ; i++) {
+                    htmlTable += '' +
+                        '<tr>' +
+                        '<th scope="row">' +response.data[i].installement_no + '</th>' +
+                        '<td>' +response.data[i].amount+ '</td>' +
+                        '<td>' +response.data[i].principal.toFixed(2)+ '</td>' +
+                        '<td>' +response.data[i].date+ '</td>' ;
+                            if(response.data[i].status ===  true) {
+                             htmlTable +=  '      <td><label class="form-check form-switch form-check-custom form-check-solid">\n' +
+                                '<input id="credit_status_'+response.data[i].installement_no+'" class="form-check-input" type="checkbox" value="1" checked="checked" onclick="updateStatus('+response.data[i].id+')" />\n' +
+                                '</label></td>\n'
+                            }else {
+                              htmlTable+=  '      <td><label class="form-check form-switch form-check-custom form-check-solid">\n' +
+                                '<input id="credit_status_'+response.data[i].installement_no+'" class="form-check-input" type="checkbox" onclick="updateStatus('+response.data[i].id+')" value="0"/>\n' +
+                                '</label></td>\n'
+                            }
+                        htmlTable +=    '</tr>'
+
+
+                }
+                $('#kredi-detay').empty().append(
+                    '<table class="table">\n' +
+                    '  <thead>\n' +
+                    '    <tr>\n' +
+                    '      <th scope="col">Taksit</th>\n' +
+                    '      <th scope="col">Ödenecek Tutar</th>\n' +
+                    '      <th scope="col">Ana Para </th>\n' +
+                    '      <th scope="col">Tarih</th>\n' +
+                    '      <th scope="col">Durum</th>\n' +
+                    '    </tr>\n' +
+                    '  </thead>\n' +
+                    '  <tbody>\n' +
+                    htmlTable+
+                    '  </tbody>\n' +
+                    '</table>'
+                )
+
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+
+            }
+        });
+
+
+    }
+
+    $(document).ready(function() {
+
+
+
+        var installementCount = 0;
+
+        $( "#credit_installement" ).change(function() {
+            installementCount = $('#credit_installement option:selected').val();
+            removeDiv()
+            taksitHesapla()
+        });
+
+
+        $( "#ilk_cekildigi_tarih" ).change(function() {
+            taksitHesapla()
+        });
+
+        $('#kt_modal_new_card').on('hidden.bs.modal', function () {
+            location.reload();
+        })
+
+        function taksitHesapla() {
+            cekilen_tutar =  $('#cekilen_tutar').val();
+            ana_para =  $('#ana_para').val();
+            debugger
+            if(installementCount> 0 && cekilen_tutar > 0 && ana_para >0 && parseFloat(cekilen_tutar) > parseFloat(ana_para)) {
+
+                var taksitTutarı = cekilen_tutar/installementCount;
+                var taksitTutarıAnaPara = ana_para/installementCount;
+
+                for (let i = 0; i < installementCount ; i++) {
+                    $('#kredi_gorsel').append('' +
+                        '<div id = "append"  class="d-flex flex-column mb-7 fv-row">\n' +
+                        '                                <!--begin::Label-->\n' +
+                        '                                <label class="required fs-6 fw-bold form-label mb-2"> '+ (i+1) +' Taksit Bilgisi</label>\n' +
+                        '                                <!--end::Label-->\n' +
+                        '                                <!--begin::Input wrapper-->\n' +
+                        '                                <div class="col-md-12"  style="display: flex">\n' +
+                        '                                    <!--begin::Input-->\n' +
+                        '<div class="col-md-3"><small>Faizli  Tutar</small><input type="number" class="form-control form-control-solid" value="'+taksitTutarı.toFixed(2)+'"  name="taksit_faizli_tutar_'+(i+1)+'" id="taksit_faizli_tutar_'+(i+1)+'" disabled/></div>'+
+                        '<div class="col-md-3" style="padding-left: 10px ; padding-right: 10px"><small>Ana Para</small><input  type="number" class="form-control form-control-solid" value="'+taksitTutarıAnaPara.toFixed(2)+'"  name="taksit_anapara_'+(i+1)+'" id="taksit_anapara_'+(i+1)+'" disabled/></div>'+
+                        '<div class="col-md-4" style="padding-right: 10px ;  padding-left: 10px"><small>Ödeme Tarihi</small><input type="date" class="form-control form-control-solid"  name="taksit_date_'+(i+1)+'" id="taksit_date_'+(i+1)+'" /></div>'+
+                        '<div class="form-check form-switch col-md-2" style="margin-top: 30px">' +
+                        '<input id="taksit_status_'+(i+1)+'" name="taksit_status_'+(i+1)+'" class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" >' +
+                        '</div>' +
+                        '                                    <!--end::Input-->\n' +
+                        '                                </div>\n'+
+
+                        '                                <!--end::Input wrapper-->\n' +
+                        '                            </div>');
+                    const dateArr = $('#ilk_cekildigi_tarih').val().split("-");
+                    var year = parseInt(dateArr[0]);
+                    var month = parseInt(dateArr[1]);
+                    for (let i = 0; i < installementCount ; i++) {
+                        if(month >= 10 && month<=12) {
+                            debugger
+                            let date  =  year+'-'+(month)+'-'+dateArr[2];
+                            $('#taksit_date_'+(i+1)).val(date)
+                            month++
+                        }
+                        else if(month > 12) {
+                            debugger
+                            year = year+1;
+                            month = 1;
+                            let date  =  year+'-'+'0'+month+'-'+dateArr[2];
+                            $('#taksit_date_'+(i+1)).val(date)
+                            month++
+                        }else {
+                            let date  =  year+'-'+'0'+month+'-'+dateArr[2];
+                            $('#taksit_date_'+(i+1)).val(date)
+                            month++;
+                        }
+                    }
+
+                }
+                $("#kt_modal_new_card_submit").removeAttr("disabled");
+            }
+
+
+        }
+        function removeDiv() {
+            $(this).parent('#append').remove();
+        }
+    });
+</script>
+
+<!--end::Content-->
+{% include 'footer.html.twig' %}

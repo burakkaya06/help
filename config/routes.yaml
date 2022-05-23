@@ -1,0 +1,22 @@
+index:
+    path: /
+    controller: App\Controller\HomeController::index
+
+debt:
+    path: /debt
+    controller: App\Controller\DebtController::index
+
+credit_card:
+    path: /credit_card
+    controller: App\Controller\CreditCardController::index
+
+
+credit:
+    path: /credit
+    controller: App\Controller\CreditController::index
+
+
+
+controllers:
+    resource: '../src/Controller/'
+    type:     annotation

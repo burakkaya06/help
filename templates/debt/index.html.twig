@@ -1,0 +1,169 @@
+{% include 'header3.html.twig' %}
+<script src="{{ asset('js/custom/components/util.js') }}"></script>
+<script src="{{ asset('js/custom/utilities/modals/new-card.js') }}"></script>
+
+<!--begin::Content-->
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+    <!--begin::Post-->
+    <div class="post d-flex flex-column-fluid" id="kt_post">
+        <!--begin::Container-->
+        <div class="toolbar" id="kt_toolbar">
+            <!--begin::Container-->
+            <div id="kt_toolbar_container" class="container-fluid d-flex  ">
+                <!--begin::Page title-->
+                <!--begin::Actions-->
+                <div class="d-flex align-items-center gap-2 gap-lg-3">
+                    <a  class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_new_card">Yeni Kredi Karti Ekle</a>
+                    <!--end::Primary button-->
+                </div>
+                <!--end::Actions-->
+            </div>
+            <!--end::Container-->
+        </div>
+        <div id="kt_content_container" class="container-xxl">
+
+        </div>
+        <!--begin::Modal - New Card-->
+        <div class="modal fade" id="kt_modal_new_card" tabindex="-1" aria-hidden="true">
+            <!--begin::Modal dialog-->
+            <div class="modal-dialog modal-dialog-centered mw-650px">
+                <!--begin::Modal content-->
+                <div class="modal-content">
+                    <!--begin::Modal header-->
+                    <div class="modal-header">
+                        <!--begin::Modal title-->
+                        <h2>Yeni Kredi Karti Ekle</h2>
+                        <!--end::Modal title-->
+                        <!--begin::Close-->
+                        <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                            <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                            <span class="svg-icon svg-icon-1">
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1" transform="rotate(-45 6 17.3137)" fill="black" />
+									<rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)" fill="black" />
+								</svg>
+							</span>
+                            <!--end::Svg Icon-->
+                        </div>
+                        <!--end::Close-->
+                    </div>
+                    <!--end::Modal header-->
+                    <!--begin::Modal body-->
+                    <div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
+                        <!--begin::Form-->
+                        <form id="kt_modal_new_card_form" class="form" action="{{ path('app_credit_card_save')}}" method="post">
+                            <div class="d-flex flex-column mb-7 fv-row">
+                                <!--begin::Label-->
+                                <label class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                                    <span class="required">Banka Bilgisi</span>
+                                    <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Specify a card holder's name"></i>
+                                </label>
+                                <!--end::Label-->
+                                <input type="text" class="form-control form-control-solid" placeholder="" name="bank_info"/>
+                            </div>
+
+                            <!--begin::Input group-->
+                            <div class="d-flex flex-column mb-7 fv-row">
+                                <!--begin::Label-->
+                                <label class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                                    <span class="required">Kart Uzerindeki Isim</span>
+                                    <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Specify a card holder's name"></i>
+                                </label>
+                                <!--end::Label-->
+                                <div class="row fv-row">
+                                    <!--begin::Col-->
+                                    <div class="">
+                                        <select name="card_name" class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="isim soyisim">
+                                            <option></option>
+                                            {% for key,val in users %}
+                                                <option value="{{ val.id }}">{{ val.name | trans }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <!--end::Col-->
+                                </div>
+                            </div>
+                            <!--end::Input group-->
+                            <!--begin::Input group-->
+                            <div class="d-flex flex-column mb-7 fv-row">
+                                <!--begin::Label-->
+                                <label class="required fs-6 fw-bold form-label mb-2">Kart Numarasi</label>
+                                <!--end::Label-->
+                                <!--begin::Input wrapper-->
+                                <div class="position-relative">
+                                    <!--begin::Input-->
+                                    <input type="text" class="form-control form-control-solid" placeholder="Enter card number" name="card_number" value="" />
+                                    <!--end::Input-->
+                                </div>
+                                <!--end::Input wrapper-->
+                            </div>
+                            <!--begin::Input group-->
+                            <div class="d-flex flex-column mb-7 fv-row">
+                                <!--begin::Label-->
+                                <label class="required fs-6 fw-bold form-label mb-2">Limit</label>
+                                <!--end::Label-->
+                                <!--begin::Input wrapper-->
+                                <div class="position-relative">
+                                    <!--begin::Input-->
+                                    <input type="number" class="form-control form-control-solid"  name="limit" />
+                                    <!--end::Input-->
+                                </div>
+                                <!--end::Input wrapper-->
+                            </div>
+                            <!--end::Input group-->
+                            <!--begin::Input group-->
+                            <div class="d-flex flex-column mb-7 fv-row">
+                                <!--begin::Label-->
+                                <label class="required fs-6 fw-bold form-label mb-2">Kullanilabilir Limit</label>
+                                <!--end::Label-->
+                                <!--begin::Input wrapper-->
+                                <div class="position-relative">
+                                    <!--begin::Input-->
+                                    <input type="number" class="form-control form-control-solid"  name="klimit" />
+                                    <!--end::Input-->
+                                </div>
+                                <!--end::Input wrapper-->
+                            </div>
+                            <!--begin::Input group-->
+                            <div class="d-flex flex-column mb-7 fv-row">
+                                <!--begin::Label-->
+                                <label class="required fs-6 fw-bold form-label mb-2">Kart Gorsel Url</label>
+                                <!--end::Label-->
+                                <!--begin::Input wrapper-->
+                                <div class="position-relative">
+                                    <!--begin::Input-->
+                                    <input type="text" class="form-control form-control-solid"  name="kurl" />
+                                    <!--end::Input-->
+                                </div>
+                                <!--end::Input wrapper-->
+                            </div>
+                            <!--end::Input group-->
+                            <!--begin::Actions-->
+                            <div class="text-center pt-15">
+                                <button type="reset" id="kt_modal_new_card_cancel"
+                                        class="btn btn-light me-3">Discard
+                                </button>
+                                <button type="submit" id="kt_modal_new_card_submit" class="btn btn-primary">
+                                    <span class="indicator-label">Submit</span>
+                                    <span class="indicator-progress">Please wait...
+									            <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+                                </button>
+                            </div>
+                            <!--end::Actions-->
+                        </form>
+                        <!--end::Form-->
+                    </div>
+                    <!--end::Modal body-->
+                </div>
+                <!--end::Modal content-->
+            </div>
+            <!--end::Modal dialog-->
+        </div>
+        <!--end::Modal - New Card-->
+
+        <!--end::Container-->
+    </div>
+    <!--end::Post-->
+</div>
+<!--end::Content-->
+{% include 'footer.html.twig' %}

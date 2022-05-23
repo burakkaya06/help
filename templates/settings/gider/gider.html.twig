@@ -1,0 +1,201 @@
+{% include 'header3.html.twig' %}
+
+<script src="{{ asset('js/custom/components/util.js') }}"></script>
+<script src="{{ asset('js/custom/utilities/modals/new-card-new-gider.js') }}"></script>
+
+
+
+
+<!--begin::Content-->
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+    <!--begin::Post-->
+    <div class="post d-flex flex-column-fluid" id="kt_post">
+        <!--begin::Container-->
+
+        <div id="kt_content_container" class="container-xxl p-0">
+            <div class="row g-5 g-xl-8">
+                <div class="post d-flex flex-column-fluid" id="kt_post">
+                    <!--begin::Container-->
+                    <div id="kt_content_container" class="container-xxl">
+                        <!--begin::Card-->
+                        <div class="card">
+                            <!--begin::Card body-->
+                            <div class="card-body">
+                                <!--begin::Heading-->
+                                <div class="card-px text-center pt-15 pb-15">
+                                    <!--begin::Title-->
+                                    <h2 class="fs-2x fw-bolder mb-0">Gider Ekle</h2>
+                                    <!--end::Title-->
+                                    <!--begin::Description-->
+                                    <p class="text-gray-400 fs-4 fw-bold py-7">
+                                        <br /></p>
+                                    <!--end::Description-->
+                                    <!--begin::Action-->
+
+                                        <a href="#" class="btn btn-primary er fs-6 px-8 py-4" data-bs-toggle="modal" data-bs-target="#kt_modal_new_card">Gider Ekle</a>
+                                        <a href="#" class="btn btn-primary er fs-6 px-8 py-4" data-bs-toggle="modal" data-bs-target="#kt_modal_new_card_parent">Parent Gider Ekle</a>
+
+
+                                    <!--end::Action-->
+                                </div>
+                                <!--end::Heading-->
+                                <!--begin::Illustration-->
+                                <div class="text-center pb-15 px-5">
+                                    <img src="{{ asset('images/10.png') }}" alt="" class="mw-100 h-200px h-sm-325px" />
+                                </div>
+                                <!--end::Illustration-->
+                            </div>
+                            <!--end::Card body-->
+                        </div>
+                        <!--end::Card-->
+                    </div>
+                    <!--end::Container-->
+                </div>
+            </div>
+        </div>
+        <!--begin::Modal - New Card-->
+        <div class="modal fade" id="kt_modal_new_card" tabindex="-1" aria-hidden="true">
+            <!--begin::Modal dialog-->
+            <div class="modal-dialog modal-dialog-centered mw-650px">
+                <!--begin::Modal content-->
+                <div class="modal-content">
+                    <!--begin::Modal header-->
+                    <div class="modal-header">
+                        <!--begin::Modal title-->
+                        <h2>Gider Ekle</h2>
+                        <!--end::Modal title-->
+                        <!--begin::Close-->
+                        <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                            <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                            <span class="svg-icon svg-icon-1">
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1" transform="rotate(-45 6 17.3137)" fill="black" />
+									<rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)" fill="black" />
+								</svg>
+							</span>
+                            <!--end::Svg Icon-->
+                        </div>
+                        <!--end::Close-->
+                    </div>
+                    <!--end::Modal header-->
+                    <!--begin::Modal body-->
+                    <div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
+                        <!--begin::Form-->
+                        <form id="kt_modal_new_card_form" class="form" action="#">
+                            <!--begin::Input group-->
+                            <div class="d-flex flex-column mb-7 fv-row">
+                                <!--begin::Label-->
+                                <label class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                                    <span class="required">Gider Ismi</span>
+                                    <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Gider Ismi"></i>
+                                </label>
+                                <!--end::Label-->
+                                <input type="text" class="form-control form-control-solid" placeholder="" name="gider_name" />
+                            </div>
+                            <div class="row mb-10">
+                                <!--begin::Col-->
+                                <div class="col-md-8 fv-row">
+                                    <!--begin::Label-->
+                                    <label class="required fs-6 fw-bold form-label mb-2">Gider Turu</label>
+                                    <!--end::Label-->
+                                    <!--begin::Row-->
+                                    <div class="row fv-row">
+                                        <!--begin::Col-->
+                                        <div class="">
+                                            <select name="gider_turu" class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="Gider Turu">
+                                                <option></option>
+                                                {% for key,val in expenseParent %}
+                                                    <option value="{{ val.id }}">{{ val.name | trans }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <!--end::Col-->
+                                    </div>
+                                    <!--end::Row-->
+                                </div>
+                            </div>
+
+                            <div class="text-center pt-15">
+                                <button type="reset" id="kt_modal_new_card_cancel" class="btn btn-light me-3">Discard</button>
+                                <button type="submit" id="kt_modal_new_card_submit" class="btn btn-primary">
+                                    <span class="indicator-label">Submit</span>
+                                    <span class="indicator-progress">Please wait...
+									<span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+                                </button>
+                            </div>
+                            <!--end::Actions-->
+                        </form>
+                        <!--end::Form-->
+                    </div>
+                    <!--end::Modal body-->
+                </div>
+                <!--end::Modal content-->
+            </div>
+            <!--end::Modal dialog-->
+        </div>
+        <div class="modal fade" id="kt_modal_new_card_parent" tabindex="-1" aria-hidden="true">
+            <!--begin::Modal dialog-->
+            <div class="modal-dialog modal-dialog-centered mw-650px">
+                <!--begin::Modal content-->
+                <div class="modal-content">
+                    <!--begin::Modal header-->
+                    <div class="modal-header">
+                        <!--begin::Modal title-->
+                        <h2>Gider Ekle</h2>
+                        <!--end::Modal title-->
+                        <!--begin::Close-->
+                        <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                            <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                            <span class="svg-icon svg-icon-1">
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1" transform="rotate(-45 6 17.3137)" fill="black" />
+									<rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)" fill="black" />
+								</svg>
+							</span>
+                            <!--end::Svg Icon-->
+                        </div>
+                        <!--end::Close-->
+                    </div>
+                    <!--end::Modal header-->
+                    <!--begin::Modal body-->
+                    <div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
+                        <!--begin::Form-->
+                        <form id="kt_modal_new_card_form_parent" class="form" action="{{ path('save_gider_parent') }}" method="post">
+                            <!--begin::Input group-->
+                            <div class="d-flex flex-column mb-7 fv-row">
+                                <!--begin::Label-->
+                                <label class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                                    <span class="required">Gider Parent Ismi</span>
+                                    <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Gider Parent Ismi"></i>
+                                </label>
+                                <!--end::Label-->
+                                <input type="text" class="form-control form-control-solid" placeholder="" name="gider_parent_name" />
+                            </div>
+
+                            <div class="text-center pt-15">
+                                <button type="reset" id="kt_modal_new_card_cancel_parent" class="btn btn-light me-3">Discard</button>
+                                <button type="submit" id="kt_modal_new_card_submit_parent" class="btn btn-primary">
+                                    <span class="indicator-label">Submit</span>
+                                    <span class="indicator-progress">Please wait...
+									<span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+                                </button>
+                            </div>
+                            <!--end::Actions-->
+                        </form>
+                        <!--end::Form-->
+                    </div>
+                    <!--end::Modal body-->
+                </div>
+                <!--end::Modal content-->
+            </div>
+            <!--end::Modal dialog-->
+        </div>
+
+        <!--end::Container-->
+    </div>
+    <!--end::Post-->
+</div>
+<!--end::Content-->
+]
+
+{% include 'footer.html.twig' %}
